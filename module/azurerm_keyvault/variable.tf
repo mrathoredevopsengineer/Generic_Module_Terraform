@@ -1,7 +1,11 @@
 variable "key_vault_name" {
   type        = string
-  description = "Key Vault"
-  default     = "jaypeekeyvault"
 }
-variable "location" {}
-variable "resource_group_name" {}
+variable "location" {
+  type        = string
+}
+
+variable "kv_resource_group_name" { 
+  type        = string  
+  default     = "asnawar"
+}

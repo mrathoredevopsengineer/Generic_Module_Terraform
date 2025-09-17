@@ -19,40 +19,11 @@ module "subnet" {
   resource_group_name  = "jaypee-rg"
   virtual_network_name = "jaypee-vnet"
   address_prefixes     = ["10.0.0.0/28"]
-
-}
-
-module "keyvault" {
-  depends_on          = [module.rg]
-  source              = "../module/azurerm_keyvault"
-  key_vault_name      = "jaypeekeyvault"
-  location            = "centralindia"
-  resource_group_name = "jaypee-rg"
-
-}
-
-module "keyvault_secret_username" {
-  depends_on          = [module.keyvault]
-  source              = "../module/azurerm_key_vault_secret"
-  secret_name         = "vm-username"
-  secret_value        = "jaypeeadmin"
-  key_vault_name      = "jaypeekeyvault"
-  resource_group_name = "jaypee-rg"
-}
-
-module "keyvault_secret_password" {
-  depends_on          = [module.keyvault]
-  source              = "../module/azurerm_key_vault_secret"
-  secret_name         = "vm-password"
-  secret_value        = "Jaypee@12345"
-  key_vault_name      = "jaypeekeyvault"
-  resource_group_name = "jaypee-rg"
-
 }
 
 module "jaypee_vm1" {
   source               = "../module/azurerm_virtual_machine"
-  depends_on           = [module.subnet, module.keyvault_secret_username, module.keyvault_secret_password]
+  depends_on           = [module.subnet ] 
   resource_group_name  = "jaypee-rg"
   location             = "centralindia"
   vm_name              = "jaypee-vm1"
@@ -64,14 +35,15 @@ module "jaypee_vm1" {
   nic_name             = "nic-jyapee-vm1"
   vnet_name            = "jaypee-vnet"
   frontend_subnet_name = "jaypee-subnet"
-  key_vault_name       = "jaypeekeyvault"
+  key_vault_name       = "jaypee-kv"
   username_secret_name = "vm-username"
   password_secret_name = "vm-password"
+  nsg_name             = "jaypee-nsg1"
 }
 
 module "jaypee_vm2" {
   source               = "../module/azurerm_virtual_machine"
-  depends_on           = [module.subnet, module.keyvault_secret_username, module.keyvault_secret_password]
+  depends_on           = [module.subnet ]
   resource_group_name  = "jaypee-rg"
   location             = "centralindia"
   vm_name              = "jaypee-vm2"
@@ -83,9 +55,10 @@ module "jaypee_vm2" {
   nic_name             = "nic-jaypee-vm2"
   vnet_name            = "jaypee-vnet"
   frontend_subnet_name = "jaypee-subnet"
-  key_vault_name       = "jaypeekeyvault"
+  key_vault_name       = "jaypee-kv"
   username_secret_name = "vm-username"
   password_secret_name = "vm-password"
+  nsg_name             = "jaypee-nsg2"
 }
 
 module "pip" {

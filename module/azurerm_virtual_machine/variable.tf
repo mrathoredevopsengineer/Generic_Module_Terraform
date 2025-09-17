@@ -69,3 +69,12 @@ variable "password_secret_name" {
   type        = string
 }
 
+variable "nsg_name" {
+  description = "Network Security Group ka naam"
+  type        = string
+}
+
+variable "kv_resource_group_name" { 
+  type        = string  
+  default     = "asnawar"
+}
