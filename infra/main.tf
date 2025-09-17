@@ -35,8 +35,8 @@ module "jaypee_vm1" {
   nic_name             = "nic-jyapee-vm1"
   vnet_name            = "jaypee-vnet"
   frontend_subnet_name = "jaypee-subnet"
-  key_vault_name       = "jaypee-kv"
-  username_secret_name = "vm-username"
+  key_vault_name       = "jaypee-kv"   # Key Vault should be created before with username and password secrets
+  username_secret_name = "vm-username" # Key Vault different RG me bna do 
   password_secret_name = "vm-password"
   nsg_name             = "jaypee-nsg1"
 }
@@ -106,27 +106,27 @@ module "pip" {
 #   sql_server_name      = "jaypeesqlserver"
 # }
 
-module "lb" {
-  source               = "../module/azurerm_loadbalancer"
-  depends_on           = [module.pip, module.rg]
-  public_ip_name      = "jaypee-pip"
-  rg_name             = "jaypee-rg"
-}
+# module "lb" {
+#   source               = "../module/azurerm_loadbalancer"
+#   depends_on           = [module.pip, module.rg]
+#   public_ip_name      = "jaypee-pip"
+#   rg_name             = "jaypee-rg"
+# }
 
-module "nic_lb_association_vm1" {
-  source               = "../module/azurerm_nic_lb_association"
-  depends_on           = [module.jaypee_vm1, module.lb]
-  nic_name             = "nic-jyapee-vm1"
-  rg_name              = "jaypee-rg"
-  lb_name             = "jaypee-lb"
-  lb_BackEndAddressPool_name = "lb_BackEndAddressPool"
-}
+# module "nic_lb_association_vm1" {
+#   source               = "../module/azurerm_nic_lb_association"
+#   depends_on           = [module.jaypee_vm1, module.lb]
+#   nic_name             = "nic-jyapee-vm1"
+#   rg_name              = "jaypee-rg"
+#   lb_name             = "jaypee-lb"
+#   lb_BackEndAddressPool_name = "lb_BackEndAddressPool"
+# }
 
-module "nic_lb_association_vm2" {
-  source               = "../module/azurerm_nic_lb_association"
-  depends_on           = [module.jaypee_vm2, module.lb]
-  nic_name             = "nic-jaypee-vm2"
-  rg_name              = "jaypee-rg"
-  lb_name             = "jaypee-lb"
-  lb_BackEndAddressPool_name = "lb_BackEndAddressPool"
-}
+# module "nic_lb_association_vm2" {
+#   source               = "../module/azurerm_nic_lb_association"
+#   depends_on           = [module.jaypee_vm2, module.lb]
+#   nic_name             = "nic-jaypee-vm2"
+#   rg_name              = "jaypee-rg"
+#   lb_name             = "jaypee-lb"
+#   lb_BackEndAddressPool_name = "lb_BackEndAddressPool"
+# }
