@@ -20,6 +20,5 @@ Private key और certificate को PFX में export करना
 
 Private key और certificate का modulus verify करना (match होना चाहिए)
 
-**openssl rsa -noout -modulus -in private.key | openssl md5
-openssl x509 -noout -modulus -in certificate.crt | openssl md5
-**
+**openssl rsa -noout -modulus -in private.key | openssl md5**
+**openssl x509 -noout -modulus -in certificate.crt | openssl md5**
